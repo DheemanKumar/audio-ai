@@ -1,0 +1,9 @@
+*.log
+audio_mp3/
+audio_wav/
+newaudio/
+unlisted_audio/
+unprocessed_audio/
+*.csv
+*.wav
+*.mp3
