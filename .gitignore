@@ -2,3 +2,5 @@
 *.csv
 *.wav
 *.mp3
+/oldaudio
+/try
