@@ -51,7 +51,7 @@ empty_button_rect = pygame.Rect(screen_width // 2 +75, screen_height - 180, 100,
 
 def move_audio(index):
     new_data=fn.getdata(index)
-    audio_file =os.path.join(os.getcwd(),"unprocessed_audio", new_data["name"]  )# Replace with your audio file path
+    audio_file =os.path.join(os.getcwd(),"3sec_audio", new_data["name"]  )# Replace with your audio file path
     pygame.mixer.music.load(audio_file)
     return new_data
 
@@ -138,30 +138,43 @@ while running:
             elif noise_button_rect.collidepoint(event.pos):
                 if (data["noise"]==0):
                     data["noise"]=1
-                    data["happy"]=0
+                    data["english"]=0
                     data['female']=0
                     data["male"]=0
-                    data["sad"]=0
+                    data["hindi"]=0
+                    data["punjabi"]=0
+                    data["bangoli"]=0
                 else:
                     data["noise"]=0 
             
             elif next_button_rect.collidepoint(event.pos):
                 fn.updatedata(audio_index,data)
                 audio_index=audio_index+1
-                data=move_audio(audio_index)
+                try:
+                    data=move_audio(audio_index)
+                except:
+                    audio_index=audio_index-1
+                    break
 
             elif previous_button_rect.collidepoint(event.pos):
                 fn.updatedata(audio_index,data)
                 audio_index=audio_index-1
-                data=move_audio(audio_index)
+                if(audio_index>=0):
+                    data=move_audio(audio_index)
+                else:
+                    audio_index=audio_index+1
             
             elif empty_button_rect.collidepoint(event.pos):
                 fn.updatedata(audio_index,data)
                 while True:
                     audio_index=audio_index+1
-                    data=move_audio(audio_index)
+                    try:
+                        data=move_audio(audio_index)
+                    except:
+                        audio_index=audio_index-1
+                        break
                     if (data["noise"]==0):
-                        if((data["female"]==0 and data["male"]==0) or (data["happy"]==0 and data["sad"]==0)):
+                        if((data["female"]==0 and data["male"]==0) or (data["english"]==0 and data["hindi"]==0) and (data["punjabi"]==0 and data["bangoli"]==0)):
                             break
                     
                 

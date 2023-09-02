@@ -2,7 +2,7 @@ import csv
 
 # CSV file path
 language="hindi"
-csv_file =language+"_unprocessed_audio_data.csv"
+csv_file =language+"_broken_3s_audio_data.csv"
 header=[]
 
 # Read data from CSV file
@@ -15,7 +15,7 @@ with open(csv_file, mode="r") as file:
 
 
 
-def savedata(Data=data, Header=header, csv_file="unprocessed_audio_data.csv"):
+def savedata(Data=data, Header=header, csv_file=language+"_broken_3s_audio_data.csv"):
     with open(csv_file, mode="w", newline="") as file:
         writer = csv.writer(file)
         writer.writerow(Header)  # Write the header row
