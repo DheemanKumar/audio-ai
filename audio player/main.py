@@ -46,6 +46,7 @@ noise_button_rect = pygame.Rect(screen_width // 2 +90, screen_height - 75, 80, 3
 previous_button_rect = pygame.Rect(20, 120, 30, 30)
 next_button_rect = pygame.Rect(screen_width -40, 120, 30, 30)
 empty_button_rect = pygame.Rect(screen_width // 2 +75, screen_height - 180, 100, 30)
+check_button_rect = pygame.Rect(screen_width - 25 , 10 , 15, 15)
 
 
 
@@ -69,7 +70,7 @@ paused = False
 
 #print(data)
 
-#data={"name":"","male":0,"female":0,"happy":0,"sad":0,"noise":0}
+#data={'name': '', 'old name': '', 'male': 1, 'female': 0, 'english': 0, 'hindi': 1, 'punjabi': 0, 'bangoli': 0, 'noise': 0, 'check': 0}
 
 
 while running:
@@ -78,6 +79,7 @@ while running:
             running = False
         elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             if play_button_rect.collidepoint(event.pos):
+                data['check']=1
                 if not playing:
                     if paused:
                         pygame.mixer.music.unpause()
@@ -166,17 +168,19 @@ while running:
             
             elif empty_button_rect.collidepoint(event.pos):
                 fn.updatedata(audio_index,data)
-                while True:
-                    audio_index=audio_index+1
-                    try:
-                        data=move_audio(audio_index)
-                    except:
-                        audio_index=audio_index-1
-                        break
-                    if (data["noise"]==0):
-                        if((data["female"]==0 and data["male"]==0) or (data["english"]==0 and data["hindi"]==0) and (data["punjabi"]==0 and data["bangoli"]==0)):
+                if (data["check"]!=0):
+                    while True:
+                        audio_index=audio_index+1
+                        try:
+                            data=move_audio(audio_index)
+                        except:
+                            audio_index=audio_index-1
                             break
-                    
+                        if (data["noise"]==0):
+                            if((data["female"]==0 and data["male"]==0) or (data["english"]==0 and data["hindi"]==0) and (data["punjabi"]==0 and data["bangoli"]==0)):
+                                break
+                        if (data["check"]==0):
+                            break
                 
 
 
@@ -202,6 +206,12 @@ while running:
 
     pygame.draw.rect(screen, (200, 200, 200), pause_button_rect)
     pygame.draw.rect(screen, (200, 200, 200), stop_button_rect)
+
+    if(data["check"]):
+        pygame.draw.rect(screen, (0, 255, 0), check_button_rect)
+    else :
+        pygame.draw.rect(screen, (255, 0, 0), check_button_rect)
+    
 
     #print(type(data))
 
@@ -257,7 +267,7 @@ while running:
     noise_text = font.render("Noise", True, (0, 0, 0))
     previous_text = font.render("P", True, (0, 0, 0))
     next_text = font.render("N", True, (0, 0, 0))
-    empty_text = font.render("Find empty", True, (0, 0, 0))
+    empty_text = font.render("Find UNcheck", True, (0, 0, 0))
     
 
 

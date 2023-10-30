@@ -49,16 +49,17 @@ except:
 
 
 oldnames=os.listdir("newaudio")     # storing all new audio files name in "names"
-
+#print(oldnames)
 # renaming new audio files
 index=len(data)
 for n in range(len(oldnames)):
     if(oldnames[n] != "note"):
-         os.rename("newaudio/"+oldnames[n],"newaudio/"+language +" audio sample "+str(index+n)+".wav")
+         os.rename("newaudio/"+oldnames[n],"unbroken_audio/"+language +" audio sample "+str(index+n)+".wav")
 
 
 # adding new audifile names to list "data"
-names=os.listdir("newaudio") 
+names=os.listdir("unbroken_audio") 
+
 for i in names:
     if(i != "note"):
          data.append([i,1,0,0,1,0,0,0])
@@ -85,20 +86,21 @@ try :
             bdata.append(row)
 
 except:
-    pass
+    bheader=["name","old name","male","female","english","hindi","punjabi","bangoli","noise","check"]
 
 
 # braking all audio files in new audio in section of 3 sec and storing that data in 3sec_audio
+#print(names)
 for i in names:
     if(i != "note"):
-        input_file = f"/Users/dheemankumar/Desktop/FILE/audio-ai/newaudio/{i}"
+        input_file = f"/Users/dheemankumar/Desktop/FILE/audio-ai/unbroken_audio/{i}"
     
         output_folder = "/Users/dheemankumar/Desktop/FILE/audio-ai/3sec_audio"
         if not os.path.exists(output_folder):
             os.makedirs(output_folder)
         segment_duration = 3  # in seconds
 
-        #print(i)
+        print(i)
         Aaudio=split_audio(input_file, output_folder, segment_duration,len(os.listdir(output_folder)),language, start_from_end=False)
         #print(Aaudio)
         Aaudio+=split_audio(input_file, output_folder, segment_duration,len(os.listdir(output_folder)),language, start_from_end=True)
@@ -108,10 +110,10 @@ for i in names:
         for j in data:
             if(j[0]==i):
                 #print(j)
-                variables=j[1:]
+                variables=j
 
         for j in Aaudio:
-            bdata.append([j]+variables)
+            bdata.append([j]+variables+[0])
         
         #print(Aaudio)
 
@@ -126,7 +128,7 @@ for i in names:
 
 with open(csv_file2, mode="w", newline="") as file:
     writer = csv.writer(file)
-    writer.writerow(header)  # Write the header row
+    writer.writerow(bheader)  # Write the header row
     writer.writerows(bdata)    
            
 

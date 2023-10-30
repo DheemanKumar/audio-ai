@@ -23,27 +23,29 @@ def savedata(Data=data, Header=header, csv_file=language+"_broken_3s_audio_data.
 
 
 def updatedata(index:int,given_data:dict):
-    data[index][1]=int(given_data["male"])
-    data[index][2]=int(given_data["female"])
-    data[index][3]=int(given_data["english"])
-    data[index][4]=int(given_data["hindi"])
-    data[index][5]=int(given_data["punjabi"])
-    data[index][6]=int(given_data["bangoli"])
-    data[index][7]=int(given_data["noise"])
+    data[index][2]=int(given_data["male"])
+    data[index][3]=int(given_data["female"])
+    data[index][4]=int(given_data["english"])
+    data[index][5]=int(given_data["hindi"])
+    data[index][6]=int(given_data["punjabi"])
+    data[index][7]=int(given_data["bangoli"])
+    data[index][8]=int(given_data["noise"])
+    data[index][9]=int(given_data["check"])
 
 
 def dict2list():
     pass
 
 def list2dict(data:list) ->dict:
-    if len(data)!=8:
+    if len(data)!=10:
         return FileNotFoundError
-    ans={"name":data[0],"male":int(data[1]),"female":int(data[2]),"english":int(data[3]),"hindi":int(data[4]),"punjabi":int(data[5]),"bangoli":int(data[6]),"noise":int(data[7])}
+    ans={"name":data[0],"old name":data[1],"male":int(data[2]),"female":int(data[3]),"english":int(data[4]),"hindi":int(data[5]),"punjabi":int(data[6]),"bangoli":int(data[7]),"noise":int(data[8]),"check":int(data[9])}
 
     return ans
 
 
 def getdata(index:int) ->dict:
+    #print(data)
     return list2dict(data[index])
 
 
