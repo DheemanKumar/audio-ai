@@ -1,5 +1,7 @@
 *.log
 /oldaudio
 /try.py
+/private
+
 
 *.wav

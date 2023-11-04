@@ -10,7 +10,7 @@ data=[]
 pygame.init()
 
 # Set up display
-screen_width, screen_height = 400, 400
+screen_width, screen_height = 600, 600
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Audio Player")
 

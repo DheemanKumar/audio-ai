@@ -62,7 +62,7 @@ names=os.listdir("unbroken_audio")
 
 for i in names:
     if(i != "note"):
-         data.append([i,1,0,0,1,0,0,0])
+         data.append([i,0,1,1,0,0,0,0])
 
 
 
