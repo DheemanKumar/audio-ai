@@ -2,6 +2,7 @@
 /oldaudio
 /try.py
 /private
-
+/models
+*.h5
 
 *.wav
