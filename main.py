@@ -2,23 +2,64 @@ from tensorflow.keras.models import load_model
 import librosa
 import numpy as np
 import tensorflow as tf
+from pydub import AudioSegment
 
 
-audio_file_path = '/Users/dheemankumar/github/audio-ai/ab.wav'
+def get_all_sample(audio_file_paths):
+    # Initialize an empty list to store predictions
+    predictions_list = []
 
-#audio_file_path = '/Users/dheemankumar/github/audio-ai/female_eng.wav'  # Adjust the path as needed
-audio, sample_rate = librosa.load(audio_file_path, sr=22050)  # Load audio with a sample rate of 22050
+    # Loop over each audio file
+    for audio in audio_file_paths:
+        # Load audio with a sample rate of 22050
+        #audio, sample_rate = librosa.load(audio_file_path, sr=22050)
 
-d=librosa.stft(audio)
+        # Compute spectrogram
+        d = librosa.stft(audio)
+        s_db = librosa.amplitude_to_db(np.abs(d), ref=np.max)
+        s_db_with_channel = np.expand_dims(s_db, axis=-1)
 
-s_db=librosa.amplitude_to_db(np.abs(d),ref=np.max)
-s_db_with_channel = np.expand_dims(s_db, axis=-1)
+        # Reshape for model input
+        input_data = s_db_with_channel.reshape(1, 1025, 130, 1)
 
-audio_= np.array(s_db_with_channel)
+        # Append input data to the list
+        predictions_list.append(input_data)
 
-input_data = audio_.reshape(1, 1025, 130, 1)
+    return np.vstack(predictions_list)
 
 
+
+def split_audio(input_file, segment_duration, start_from_end=False):
+    audio = AudioSegment.from_wav(input_file)
+    total_duration = len(audio)
+    segment_length = segment_duration * 1000  # Convert to milliseconds
+
+    audio_data=[]
+
+    if start_from_end:
+        start_times = list(range(total_duration, 0, -segment_length))
+    else:
+        start_times = list(range(0, total_duration, segment_length))
+
+    for i, start_time in enumerate(start_times):
+        end_time = min(start_time + segment_length, total_duration)
+        segment = audio[start_time:end_time]
+        
+        if(segment.duration_seconds==3):
+            audio_data.append(segment)
+    
+    return get_all_sample(audio_data)
+
+
+audio_file_path = '/Users/dheemankumar/github/audio-ai/private/audio data processor/bangoli/broken_audio/bangoli audio sample 5.wav'
+
+input_data=1
+
+a=split_audio(audio_file_path,3)
+
+print(a)
+
+'''
 model_noise=load_model("models/NoiseModel.h5")
 
 
@@ -54,8 +95,10 @@ else:
     ans+="language."
 
     print(ans)
+'''
 
 
-
-
+def break_audio(audio_file_path):
+    audio_samples=[]
+    return get_all_sample(audio_samples)
 

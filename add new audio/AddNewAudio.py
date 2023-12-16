@@ -1,7 +1,6 @@
 import os
 import csv
 from pydub import AudioSegment
-import os
 
 path = os.path.dirname(os.path.abspath(__file__))
 os.chdir(path)
